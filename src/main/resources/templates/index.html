@@ -8,5 +8,16 @@
 <body>
 	<h1>Welcome to Explorer</h1>
 	<p>Directory list</p>
+	<p th:text="${pwd}"></p>
+	<a th:if="${prevDir != null}" th:href="@{'/?pathToFile=' + ${prevDir}}">..</a>
+	<ul th:each="file: ${fileList}">
+		<li>
+			<a 
+				th:text="${file.getName()}" 
+				th:href="@{'/?pathToFile=' + ${pwd} + '/' + ${file.getName()}}"
+			>
+			</a>
+		</li>
+	</ul>
 </body>
 </html>
