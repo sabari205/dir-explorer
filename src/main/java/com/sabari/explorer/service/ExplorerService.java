@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.nio.file.Paths;
 
 import com.sabari.explorer.configuration.PathConfig;
 import com.sabari.explorer.dto.FilesDTO;
@@ -21,8 +22,6 @@ public class ExplorerService {
 
 		if (filePath != null) {
 			path = new File(pathConfig.getHome() + File.separator + filePath);
-
-			System.out.println(pathConfig.getHome() + File.separator + filePath);
 		} else {
 			path = new File(pathConfig.getHome());
 		}
@@ -46,7 +45,16 @@ public class ExplorerService {
 		List<FilesDTO> fileList = new ArrayList<>();
 
 		for (File file: fileListArr) {
-			fileList.add(new FilesDTO(file.getName(), file.isDirectory()));
+			String pwd = Paths.get(
+				File.separator + 
+				(
+					filePath == null? "": filePath
+				) + 
+				File.separator + 
+				file.getName()
+			).toAbsolutePath().toString();
+
+			fileList.add(new FilesDTO(file.getName(), file.isDirectory(), pwd));
 		}
 
 		return fileList;

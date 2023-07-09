@@ -2,15 +2,17 @@ package com.sabari.explorer.dto;
 
 public class FilesDTO {
 	private String name;
+	private String absPath;
 	private boolean type;
 
 	public FilesDTO() {
 
 	}
 
-	public FilesDTO(String name, boolean type) {
+	public FilesDTO(String name, boolean type, String absPath) {
 		this.name = name;
 		this.type = type;
+		this.absPath = absPath;
 	}
 
 	public String getName() {
@@ -19,6 +21,14 @@ public class FilesDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getAbsPath() {
+		return this.absPath;
+	}
+
+	public void setAbsPath(String absPath) {
+		this.absPath = absPath;
 	}
 
 	public boolean getType() {
