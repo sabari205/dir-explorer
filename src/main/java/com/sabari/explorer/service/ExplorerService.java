@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.nio.file.Paths;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 import com.sabari.explorer.configuration.PathConfig;
 import com.sabari.explorer.dto.FilesDTO;
@@ -58,5 +61,33 @@ public class ExplorerService {
 		}
 
 		return fileList;
+	}
+
+	public String getFileContents (String filePath) {
+		File file = new File(pathConfig.getHome() + File.separator + filePath);
+
+		StringBuilder contents = new StringBuilder();
+
+		BufferedReader reader = null;
+
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line;
+			while ((line = reader.readLine()) != null) {
+				contents.append(line + "\n");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return contents.toString();
 	}
 }

@@ -36,6 +36,16 @@ public class ExplorerController {
 		return "index";
 	}
 
+	@GetMapping("/getFileContents")
+	public String getFileContents(@RequestParam String pathToFile, Model model) {
+		String fileContents = explorerService.getFileContents(pathToFile);
+
+		model.addAttribute("fileContents", fileContents);
+		model.addAttribute("prevDir", Paths.get(pathToFile).getParent());
+		
+		return "fileViewer";
+	}
+
 	@GetMapping("/{pathToFile}")
 	public String getIndexPage(@PathVariable String pathToFile) {
 		System.out.println(pathToFile);

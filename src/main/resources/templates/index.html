@@ -22,7 +22,7 @@
 			<a 
 				th:unless="${file.getType()}"
 				th:text="${file.getName()}" 
-				th:href="@{'/getFileContents/?pathToFile=' + ${file.getAbsPath()}}"
+				th:href="@{'/getFileContents?pathToFile=' + ${file.getAbsPath()}}"
 			>
 			</a>
 		</li>
