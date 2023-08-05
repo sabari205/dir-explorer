@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.nio.file.Paths;
@@ -46,9 +47,12 @@ public class ExplorerController {
 		return "fileViewer";
 	}
 
-	@GetMapping("/{pathToFile}")
-	public String getIndexPage(@PathVariable String pathToFile) {
-		System.out.println(pathToFile);
+	@GetMapping("/dynamicUrlTest/**")
+	public String getIndexPage(HttpServletRequest request) {
+		System.out.println(request.getRequestURI());
+		System.out.println(request.getPathInfo());
+		System.out.println(request.getRequestURL());
+		System.out.println(request.getRequestURL());
 		return "sample";
 	}
 }

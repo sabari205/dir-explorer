@@ -8,8 +8,6 @@
 <body>
 	<h1>Welcome to Explorer</h1>
 	<a th:href="(${#strings.equals(prevDir, '/')}) ? ${prevDir} : '/?pathToFile=' + ${prevDir}">..</a>
-	<form>
-		<textarea th:text="${fileContents}"></textarea>
-	</form>
+	<div th:text="${fileContents}"></div>
 </body>
 </html>
