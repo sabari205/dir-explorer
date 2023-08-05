@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
@@ -21,24 +22,25 @@ public class ExplorerController {
 	@Autowired
 	private ExplorerService explorerService;
 
-	@GetMapping("/")
-	public String getIndexPage(@RequestParam(required=false) String pathToFile, Model model) {
+	@GetMapping("/**")
+	public String getIndexPage(HttpServletRequest request, Model model) {
+		String pathToFile = request.getRequestURI();
+
 		List<FilesDTO> fileList = explorerService.getDirListing(pathToFile);
 
 		model.addAttribute("fileList", fileList);
 
-		if (pathToFile == null) {
-			model.addAttribute("pwd", "/");
-		} else {
-			model.addAttribute("pwd", pathToFile);
+		model.addAttribute("pwd", pathToFile);
+		if (!pathToFile.equals("/")) {
 			model.addAttribute("prevDir", Paths.get(pathToFile).getParent());
 		}
 		
 		return "index";
 	}
 
-	@GetMapping("/getFileContents")
-	public String getFileContents(@RequestParam String pathToFile, Model model) {
+	@GetMapping("/getFileContents/**")
+	public String getFileContents(HttpServletRequest request, Model model) {
+		String pathToFile = request.getRequestURI();
 		String fileContents = explorerService.getFileContents(pathToFile);
 
 		model.addAttribute("fileContents", fileContents);
@@ -54,5 +56,11 @@ public class ExplorerController {
 		System.out.println(request.getRequestURL());
 		System.out.println(request.getRequestURL());
 		return "sample";
+	}
+
+	@GetMapping("/favicon.ico")
+	@ResponseBody
+	public void noFavIcon() {
+
 	}
 }

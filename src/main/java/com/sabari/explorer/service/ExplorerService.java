@@ -23,15 +23,15 @@ public class ExplorerService {
 	public List<FilesDTO> getDirListing(String filePath) {
 		File path = null;
 
-		if (filePath != null) {
-			path = new File(pathConfig.getHome() + File.separator + filePath);
-		} else {
+		if (filePath.equals("/")) {
 			path = new File(pathConfig.getHome());
+		} else {
+			path = new File(pathConfig.getHome() + File.separator + filePath);
 		}
 
 		File[] fileListArr = path.listFiles();
 
-		Arrays.toString(fileListArr);
+		// System.out.println(filePath + Arrays.toString(fileListArr));
 
 		Arrays.sort(fileListArr, (a,b) -> {
 			if (a.isDirectory() && b.isDirectory()) {
@@ -45,16 +45,13 @@ public class ExplorerService {
 			}
 		});
 
+		// System.out.println(Arrays.toString(fileListArr));
+
 		List<FilesDTO> fileList = new ArrayList<>();
 
 		for (File file: fileListArr) {
 			String pwd = Paths.get(
-				File.separator + 
-				(
-					filePath == null? "": filePath
-				) + 
-				File.separator + 
-				file.getName()
+				filePath + File.separator + file.getName()
 			).toAbsolutePath().toString();
 
 			fileList.add(new FilesDTO(file.getName(), file.isDirectory(), pwd));
@@ -64,7 +61,7 @@ public class ExplorerService {
 	}
 
 	public String getFileContents (String filePath) {
-		File file = new File(pathConfig.getHome() + File.separator + filePath);
+		File file = new File(pathConfig.getHome() + File.separator + filePath.substring(filePath.indexOf("/", 1)));
 
 		StringBuilder contents = new StringBuilder();
 
