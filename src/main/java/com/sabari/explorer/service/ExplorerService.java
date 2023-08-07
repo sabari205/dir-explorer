@@ -3,6 +3,12 @@ package com.sabari.explorer.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.ext.task.list.items.TaskListItemsExtension;
+import org.commonmark.Extension;
+
 import java.io.File;
 import java.util.List;
 import java.util.ArrayList;
@@ -14,6 +20,7 @@ import java.io.IOException;
 
 import com.sabari.explorer.configuration.PathConfig;
 import com.sabari.explorer.dto.FilesDTO;
+import com.sabari.explorer.dto.FileContentDTO;
 
 @Service
 public class ExplorerService {
@@ -60,8 +67,12 @@ public class ExplorerService {
 		return fileList;
 	}
 
-	public String getFileContents (String filePath) {
+	public FileContentDTO getFileContents (String filePath) {
 		File file = new File(pathConfig.getHome() + File.separator + filePath.substring(filePath.indexOf("/", 1)));
+		FileContentDTO fileContent = new FileContentDTO();
+
+		// Check if file exist else throw error
+		// method to check whether the file is binary encoded or an ASCII file
 
 		StringBuilder contents = new StringBuilder();
 
@@ -85,6 +96,23 @@ public class ExplorerService {
 			}
 		}
 
-		return contents.toString();
+		fileContent.setFileName(file.getName());
+		fileContent.setContent(contents.toString());
+		fileContent.setContentHTML(getHTMLContent(contents.toString()));
+		fileContent.setIsAsciiFile(true);
+
+		return fileContent;
+	}
+
+	public String getHTMLContent (String fileContent) {
+
+		List<Extension> extensions = Arrays.asList(TaskListItemsExtension.create());
+
+		Parser parser = Parser.builder().extensions(extensions).build();
+		Node document = parser.parse(fileContent);
+		HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
+
+		return renderer.render(document);
+
 	}
 }

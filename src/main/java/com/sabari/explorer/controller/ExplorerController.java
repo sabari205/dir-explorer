@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 
 import com.sabari.explorer.service.ExplorerService;
 import com.sabari.explorer.dto.FilesDTO;
+import com.sabari.explorer.dto.FileContentDTO;
 
 @Controller
 public class ExplorerController {
@@ -41,10 +42,10 @@ public class ExplorerController {
 	@GetMapping("/getFileContents/**")
 	public String getFileContents(HttpServletRequest request, Model model) {
 		String pathToFile = request.getRequestURI();
-		String fileContents = explorerService.getFileContents(pathToFile);
+		FileContentDTO fileContents = explorerService.getFileContents(pathToFile);
 
 		model.addAttribute("fileContents", fileContents);
-		model.addAttribute("prevDir", Paths.get(pathToFile).getParent());
+		model.addAttribute("prevDir", Paths.get(pathToFile.substring(pathToFile.indexOf("/", 1))).getParent());
 		
 		return "fileViewer";
 	}

@@ -8,6 +8,18 @@
 <body>
 	<h1>Welcome to Explorer</h1>
 	<a th:href="@{${prevDir}}">..</a>
-	<div th:text="${fileContents}"></div>
+	<div>
+		<div>
+			Tree view of directories
+		</div>
+		<div>
+			<div>
+				<p th:text="${fileContents.getFileName()}"></p>
+			</div>
+			<div>
+				<div th:utext="${fileContents.getContentHTML}"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
