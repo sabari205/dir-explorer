@@ -3,22 +3,59 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" th:href="@{/styles/fileviewer.css}">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style type="text/tailwindcss">
+		@layer base {
+			a {
+			    @apply underline text-blue-600;
+			}
+			a:hover {
+			    @apply text-blue-800;
+			}
+			a:visited {
+			    @apply text-purple-600;
+			}
+			h1 {
+				@apply text-3xl;
+			}
+			h2 {
+				@apply text-2xl;
+			}
+			h3 {
+				@apply text-xl;
+			}
+			h4 {
+				@apply text-lg;
+			}
+			h1, h2, h3, h4, h5, h6 {
+				@apply font-extrabold font-serif;
+			}
+			ol {
+				@apply list-decimal;
+			}
+			ul {
+				@apply list-disc;
+			}
+            p code, pre {
+                @apply rounded p-2;
+            }
+		}
+	</style>
 	<title>Directory explorer</title>
 </head>
 <body>
 	<h1>Welcome to Explorer</h1>
-	<a th:href="@{${prevDir}}">..</a>
-	<div>
-		<div>
-			Tree view of directories
-		</div>
-		<div>
-			<div>
+	<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
+	<div class="flex px-2">
+		<!-- <div class="grow-0 p-2 border-black rounded border"> -->
+		<!-- 	Tree view of directories -->
+		<!-- </div> -->
+		<div class="grow border-black rounded border ml-0.5">
+			<div class="p-2 border-black border-b">
 				<p th:text="${fileContents.getFileName()}"></p>
 			</div>
-			<div>
-				<div th:utext="${fileContents.getContentHTML}"></div>
-			</div>
+			<div class="p-2" th:utext="${fileContents.getContentHTML}"></div>
 		</div>
 	</div>
 </body>

@@ -68,7 +68,7 @@ public class ExplorerService {
 	}
 
 	public FileContentDTO getFileContents (String filePath) {
-		File file = new File(pathConfig.getHome() + File.separator + filePath.substring(filePath.indexOf("/", 1)));
+		File file = new File(pathConfig.getHome() + File.separator + filePath);
 		FileContentDTO fileContent = new FileContentDTO();
 
 		// Check if file exist else throw error

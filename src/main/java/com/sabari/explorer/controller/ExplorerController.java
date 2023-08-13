@@ -23,9 +23,9 @@ public class ExplorerController {
 	@Autowired
 	private ExplorerService explorerService;
 
-	@GetMapping("/**")
+	@GetMapping("/getDirList/**")
 	public String getIndexPage(HttpServletRequest request, Model model) {
-		String pathToFile = request.getRequestURI();
+		String pathToFile = getActualFilename(request.getRequestURI());
 
 		List<FilesDTO> fileList = explorerService.getDirListing(pathToFile);
 
@@ -41,11 +41,11 @@ public class ExplorerController {
 
 	@GetMapping("/getFileContents/**")
 	public String getFileContents(HttpServletRequest request, Model model) {
-		String pathToFile = request.getRequestURI();
+		String pathToFile = getActualFilename(request.getRequestURI());
 		FileContentDTO fileContents = explorerService.getFileContents(pathToFile);
 
 		model.addAttribute("fileContents", fileContents);
-		model.addAttribute("prevDir", Paths.get(pathToFile.substring(pathToFile.indexOf("/", 1))).getParent());
+		model.addAttribute("prevDir", Paths.get(pathToFile).getParent());
 		
 		return "fileViewer";
 	}
@@ -59,9 +59,8 @@ public class ExplorerController {
 		return "sample";
 	}
 
-	@GetMapping("/favicon.ico")
-	@ResponseBody
-	public void noFavIcon() {
-
+	public String getActualFilename (String requestURI) {
+		return requestURI.substring(requestURI.indexOf("/", 1));
 	}
+
 }
