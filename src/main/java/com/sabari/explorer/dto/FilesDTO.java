@@ -4,15 +4,17 @@ public class FilesDTO {
 	private String name;
 	private String absPath;
 	private boolean type;
+	private String lastModified;
 
 	public FilesDTO() {
 
 	}
 
-	public FilesDTO(String name, boolean type, String absPath) {
+	public FilesDTO(String name, String lastModified, boolean type, String absPath) {
 		this.name = name;
 		this.type = type;
 		this.absPath = absPath;
+		this.lastModified = lastModified;
 	}
 
 	public String getName() {
@@ -21,6 +23,14 @@ public class FilesDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getLastModified() {
+		return this.lastModified;
+	}
+
+	public void setLastModified(String lastModified) {
+		this.lastModified = lastModified;
 	}
 
 	public String getAbsPath() {

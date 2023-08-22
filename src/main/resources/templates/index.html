@@ -39,6 +39,12 @@
             li {
                 margin-left: 1em;
             }
+            tr {
+            	@apply border-b border-black;
+            }
+            td {
+            	@apply p-4;
+            }
 		}
 	
     </style>
@@ -50,21 +56,33 @@
 	<p th:text="${pwd}"></p>
 	<a th:if="${prevDir != null}" th:href="@{'/getDirList' + ${prevDir}}">..</a>
 	<!-- <span th:text="${#strings.equals(prevDir, '/')}"></span> -->
-	<ul th:each="file: ${fileList}">
-		<li>
-			<a 
-				th:if="${file.getType()}"
-				th:text="${file.getName()}" 
-				th:href="@{'/getDirList' + ${file.getAbsPath()}}"
-			>
-			</a>
-			<a 
-				th:unless="${file.getType()}"
-				th:text="${file.getName()}" 
-				th:href="@{'/getFileContents' + ${file.getAbsPath()}}"
-			>
-			</a>
-		</li>
-	</ul>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Last Modified</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="file: ${fileList}">
+				<td>
+					<a 
+						th:if="${file.getType()}"
+						th:text="${file.getName()}" 
+						th:href="@{'/getDirList' + ${file.getAbsPath()}}"
+					>
+					</a>
+					<a 
+						th:unless="${file.getType()}"
+						th:text="${file.getName()}" 
+						th:href="@{'/getFileContents' + ${file.getAbsPath()}}"
+					>
+					</a>
+				</td>
+				<td th:text="${file.getLastModified()}">
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

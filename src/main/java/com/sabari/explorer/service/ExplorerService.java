@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.sabari.explorer.configuration.PathConfig;
 import com.sabari.explorer.dto.FilesDTO;
@@ -26,6 +28,8 @@ import com.sabari.explorer.dto.FileContentDTO;
 public class ExplorerService {
 	@Autowired
 	private PathConfig pathConfig;
+
+	public static final String LAST_MODIFIED_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
 
 	public List<FilesDTO> getDirListing(String filePath) {
 		File path = null;
@@ -61,7 +65,7 @@ public class ExplorerService {
 				filePath + File.separator + file.getName()
 			).toAbsolutePath().toString();
 
-			fileList.add(new FilesDTO(file.getName(), file.isDirectory(), pwd));
+			fileList.add(new FilesDTO(file.getName(), getFormattedTime(file.lastModified()), file.isDirectory(), pwd));
 		}
 
 		return fileList;
@@ -114,5 +118,10 @@ public class ExplorerService {
 
 		return renderer.render(document);
 
+	}
+
+	public String getFormattedTime(long timestamp) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat(LAST_MODIFIED_DATE_FORMAT);
+		return dateFormat.format(new Date(timestamp));
 	}
 }
