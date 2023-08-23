@@ -39,50 +39,45 @@
             li {
                 margin-left: 1em;
             }
-            tr {
-            	@apply border-b border-black;
-            }
-            td {
-            	@apply p-4;
-            }
 		}
 	
     </style>
 	<title>Directory explorer</title>
 </head>
 <body>
-	<h1>Welcome to Explorer</h1>
-	<p>Directory list</p>
-	<p th:text="${pwd}"></p>
-	<a th:if="${prevDir != null}" th:href="@{'/getDirList' + ${prevDir}}">..</a>
-	<!-- <span th:text="${#strings.equals(prevDir, '/')}"></span> -->
-	<table>
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Last Modified</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="file: ${fileList}">
-				<td>
-					<a 
-						th:if="${file.getType()}"
-						th:text="${file.getName()}" 
-						th:href="@{'/getDirList' + ${file.getAbsPath()}}"
-					>
-					</a>
-					<a 
-						th:unless="${file.getType()}"
-						th:text="${file.getName()}" 
-						th:href="@{'/getFileContents' + ${file.getAbsPath()}}"
-					>
-					</a>
-				</td>
-				<td th:text="${file.getLastModified()}">
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="flex justify-center w-full">
+		<div class="w-8/12">
+			<h1>Welcome to Explorer</h1>
+			<p>Directory list</p>
+			<p th:text="${pwd}"></p>
+			<a th:if="${prevDir != null}" th:href="@{'/getDirList' + ${prevDir}}">..</a>
+			<!-- <span th:text="${#strings.equals(prevDir, '/')}"></span> -->
+			<div class="flex flex-col">
+				<div class="grid grid-cols-8">
+					<div class="col-span-6">Name</div>
+					<div class="col-span-2">Last Modified</div>
+				</div>
+				<div th:each="file: ${fileList}" class="grid grid-cols-8">
+					<div class="col-span-6">
+						<a 
+							th:if="${file.getType()}"
+							th:text="${file.getName()}" 
+							th:href="@{'/getDirList' + ${file.getAbsPath()}}"
+						>
+						</a>
+						<a 
+							th:unless="${file.getType()}"
+							th:text="${file.getName()}" 
+							th:href="@{'/getFileContents' + ${file.getAbsPath()}}"
+						>
+						</a>
+					</div>
+					<div class="col-span-2">
+						<span th:text="${file.getLastModified()}"></span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
