@@ -29,7 +29,7 @@ public class ExplorerService {
 	@Autowired
 	private PathConfig pathConfig;
 
-	public static final String LAST_MODIFIED_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.S";
+	public static final String LAST_MODIFIED_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
 	public List<FilesDTO> getDirListing(String filePath) {
 		File path = null;
@@ -65,7 +65,11 @@ public class ExplorerService {
 				filePath + File.separator + file.getName()
 			).toAbsolutePath().toString();
 
-			fileList.add(new FilesDTO(file.getName(), getFormattedTime(file.lastModified()), file.isDirectory(), pwd));
+			if (file.isDirectory()) {
+				fileList.add(new FilesDTO(file.getName(), getFormattedTime(file.lastModified()), file.isDirectory(), pwd));
+			} else {
+				fileList.add(new FilesDTO(file.getName(), getFormattedTime(file.lastModified()), file.isDirectory(), pwd, file.length()));
+			}
 		}
 
 		return fileList;

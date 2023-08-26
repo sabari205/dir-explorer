@@ -45,17 +45,21 @@
 	<title>Directory explorer</title>
 </head>
 <body>
-	<h1>Welcome to Explorer</h1>
-	<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
-	<div class="flex px-2">
-		<!-- <div class="grow-0 p-2 border-black rounded border"> -->
-		<!-- 	Tree view of directories -->
-		<!-- </div> -->
-		<div class="grow border-black rounded border ml-0.5">
-			<div class="p-2 border-black border-b">
-				<p th:text="${fileContents.getFileName()}"></p>
+	<h1>Explorer</h1>
+	<div class="flex justify-center w-full">
+		<div class="flex flex-col px-2 w-10/12">
+			<div>
+				<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
 			</div>
-			<div class="p-2" th:utext="${fileContents.getContentHTML}"></div>
+			<!-- <div class="grow-0 p-2 border-black rounded border"> -->
+			<!-- 	Tree view of directories -->
+			<!-- </div> -->
+			<div class="grow border-black rounded border ml-0.5">
+				<div class="p-2 border-black border-b">
+					<p th:text="${fileContents.getFileName()}"></p>
+				</div>
+				<div class="p-2" th:utext="${fileContents.getContentHTML}"></div>
+			</div>
 		</div>
 	</div>
 </body>

@@ -45,20 +45,24 @@
 	<title>Directory explorer</title>
 </head>
 <body>
-	<div class="flex justify-center w-full">
-		<div class="w-8/12">
-			<h1>Welcome to Explorer</h1>
-			<p>Directory list</p>
+	<h1>Explorer</h1>
+	<div class="flex justify-center w-full font-serif text-sm">
+		<div class="w-10/12">
 			<p th:text="${pwd}"></p>
-			<a th:if="${prevDir != null}" th:href="@{'/getDirList' + ${prevDir}}">..</a>
 			<!-- <span th:text="${#strings.equals(prevDir, '/')}"></span> -->
-			<div class="flex flex-col">
-				<div class="grid grid-cols-8">
-					<div class="col-span-6">Name</div>
-					<div class="col-span-2">Last Modified</div>
+			<div class="flex flex-col border-x border-t rounded border-black">
+				<div class="grid grid-cols-10 border-b border-black text-base">
+					<div class="col-span-8 p-2">Name</div>
+					<div class="col-span-2 grid grid-cols-3">
+						<div class="col-span-2 p-2 text-center">Last Modified</div>
+						<div class="p-2 text-right">Size</div>
+					</div>
 				</div>
-				<div th:each="file: ${fileList}" class="grid grid-cols-8">
-					<div class="col-span-6">
+				<div th:if="${prevDir != null}" class="w-full p-2 border-b border-black">
+					<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
+				</div>
+				<div th:each="file: ${fileList}" class="grid grid-cols-10 border-b border-black">
+					<div class="col-span-8 p-2">
 						<a 
 							th:if="${file.getType()}"
 							th:text="${file.getName()}" 
@@ -72,8 +76,13 @@
 						>
 						</a>
 					</div>
-					<div class="col-span-2">
-						<span th:text="${file.getLastModified()}"></span>
+					<div class="col-span-2 grid grid-cols-3">
+						<div class="col-span-2 p-2 text-center">
+							<span th:text="${file.getLastModified()}"></span>
+						</div>
+						<div class="p-2 text-right">
+							<span th:text="${file.formatSize()}"></span>
+						</div>
 					</div>
 				</div>
 			</div>
