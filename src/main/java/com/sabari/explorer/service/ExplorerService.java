@@ -6,8 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.commonmark.renderer.html.HtmlNodeRendererContext;
+import org.commonmark.renderer.html.HtmlNodeRendererFactory;
+import org.commonmark.renderer.NodeRenderer;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
 import org.commonmark.Extension;
+
+import com.sabari.explorer.markdown.CustomHeadingNodeRenderer;
 
 import java.io.File;
 import java.util.List;
@@ -118,7 +123,13 @@ public class ExplorerService {
 
 		Parser parser = Parser.builder().extensions(extensions).build();
 		Node document = parser.parse(fileContent);
-		HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
+		HtmlRenderer renderer = HtmlRenderer.builder()
+            .nodeRendererFactory(new HtmlNodeRendererFactory() {
+                public NodeRenderer create(HtmlNodeRendererContext context) {
+                    return new CustomHeadingNodeRenderer(context);
+                }
+            })
+            .extensions(extensions).build();
 
 		return renderer.render(document);
 

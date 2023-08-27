@@ -8,7 +8,7 @@
 	<style type="text/tailwindcss">
 		@layer base {
 			a {
-			    @apply underline text-blue-600;
+			    @apply mt-2 underline text-blue-600 font-serif text-base;
 			}
 			a:hover {
 			    @apply text-blue-800;
@@ -29,16 +29,25 @@
 				@apply text-lg;
 			}
 			h1, h2, h3, h4, h5, h6 {
-				@apply font-extrabold font-serif;
+				@apply mt-2 font-extrabold font-serif;
 			}
 			ol {
-				@apply list-decimal;
+				@apply mt-2 list-decimal font-serif text-base;
 			}
 			ul {
-				@apply list-disc;
+				@apply mt-2 list-disc font-serif text-base;
 			}
             p code, pre {
-                @apply rounded p-2;
+                @apply mt-2 rounded p-2;
+            }
+            p {
+                @apply mt-2 font-serif text-base;
+            }
+            blockquote p {
+                @apply mt-0;
+            }
+            blockquote {
+                @apply mt-2 py-2 pl-4 border-l-4 border-slate-400 text-zinc-500;
             }
 		}
 	</style>
@@ -46,17 +55,17 @@
 </head>
 <body>
 	<h1>Explorer</h1>
-	<div class="flex justify-center w-full">
+	<div class="flex justify-center w-full py-2">
 		<div class="flex flex-col px-2 w-10/12">
-			<div>
-				<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
-			</div>
+			<!-- <div> -->
+			<!-- 	<a th:href="@{'/getDirList' + ${prevDir}}">..</a> -->
+			<!-- </div> -->
 			<!-- <div class="grow-0 p-2 border-black rounded border"> -->
 			<!-- 	Tree view of directories -->
 			<!-- </div> -->
 			<div class="grow border-black rounded border ml-0.5">
 				<div class="p-2 border-black border-b">
-					<p th:text="${fileContents.getFileName()}"></p>
+                    <p class="mt-0" th:text="${prevDir} + '/' + ${fileContents.getFileName()}"></p>
 				</div>
 				<div class="p-2" th:utext="${fileContents.getContentHTML}"></div>
 			</div>
