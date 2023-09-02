@@ -68,6 +68,63 @@ public class FilesDTO {
 		this.size = size;
 	}
 
+	public String getFileType() {
+		if (this.type) {
+			return "folder";
+		}
+
+        String[] fileTokens = this.name.split("\\.", -1);
+
+		int length = fileTokens.length;
+		if (fileTokens[length-1].equalsIgnoreCase("xlsx") 
+			|| fileTokens[length-1].equalsIgnoreCase("csv") 
+			|| fileTokens[length-1].equalsIgnoreCase("xls")) {
+			return "excel-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("zip") 
+			|| fileTokens[length-1].equalsIgnoreCase("gz") 
+			|| fileTokens[length-1].equalsIgnoreCase("tar")
+			|| fileTokens[length-1].equalsIgnoreCase("bz")) {
+			return "archive-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("java") 
+			|| fileTokens[length-1].equalsIgnoreCase("py") 
+			|| fileTokens[length-1].equalsIgnoreCase("pl")
+			|| fileTokens[length-1].equalsIgnoreCase("rs")
+			|| fileTokens[length-1].equalsIgnoreCase("go")
+			|| fileTokens[length-1].equalsIgnoreCase("dat")
+			|| fileTokens[length-1].equalsIgnoreCase("md")
+			|| fileTokens[length-1].equalsIgnoreCase("html")
+			|| fileTokens[length-1].equalsIgnoreCase("sh")) {
+			return "code-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("txt")) {
+			return "text-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("pdf")) {
+			return "pdf-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("png")
+			|| fileTokens[length-1].equalsIgnoreCase("jpg")
+			|| fileTokens[length-1].equalsIgnoreCase("jpeg")) {
+			return "image-";
+		}
+
+		if (fileTokens[length-1].equalsIgnoreCase("mp4")
+			|| fileTokens[length-1].equalsIgnoreCase("mkv")
+			|| fileTokens[length-1].equalsIgnoreCase("webp")) {
+			return "video-";
+		}
+
+		return "";
+
+	}
+
 	public String formatSize () {
 		if (this.type) {
 			// Size deduction is not required for directories

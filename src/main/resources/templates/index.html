@@ -3,11 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://cdn.tailwindcss.com"></script>
     <style type="text/tailwindcss">
 		@layer base {
 			a {
-			    @apply underline text-blue-600;
+			    @apply text-blue-600;
 			}
 			a:hover {
 			    @apply text-blue-800;
@@ -40,43 +41,57 @@
                 margin-left: 1em;
             }
 		}
-	
     </style>
 	<title>Directory explorer</title>
 </head>
 <body>
-	<h1>Explorer</h1>
-	<div class="flex justify-center w-full font-serif text-sm">
+	<header>
+        <div class="flex justify-start">
+            <div class="mt-2">
+                <a href="/">
+                    <span class="fa-stack text-black">
+                        <i class="fa fa-file-o fa-stack-2x"></i>
+                        <i class="fa fa-arrows fa-stack-1x"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="mt-2">
+                <h1>ServerNav</h1>
+            </div>
+        </div>
+	</header>
+	<div class="flex justify-center w-full font-serif text-sm mt-2">
 		<div class="w-10/12">
-			<p th:text="${pwd}"></p>
 			<!-- <span th:text="${#strings.equals(prevDir, '/')}"></span> -->
 			<div class="flex flex-col border-x border-t rounded border-black">
 				<div class="grid grid-cols-10 border-b border-black text-base">
-					<div class="col-span-8 p-2">Name</div>
-					<div class="col-span-2 grid grid-cols-3">
+					<div class="col-span-7 p-2 flex justify-between">
+						<div>
+							<i class="mr-2 fa fa-folder-open-o" aria-hidden="true"></i>
+							<span th:text="${pwd}"></span>
+						</div>
+						<div>Name</div>
+					</div>
+					<div class="col-span-3 grid grid-cols-3">
 						<div class="col-span-2 p-2 text-center">Last Modified</div>
 						<div class="p-2 text-right">Size</div>
 					</div>
 				</div>
 				<div th:if="${prevDir != null}" class="w-full p-2 border-b border-black">
+                    <i class="fa fa-folder-o mr-2" aria-hidden="true"></i>
 					<a th:href="@{'/getDirList' + ${prevDir}}">..</a>
 				</div>
 				<div th:each="file: ${fileList}" class="grid grid-cols-10 border-b border-black">
-					<div class="col-span-8 p-2">
+					<div class="col-span-7 p-2">
+                        <i class="mr-2 fa" 
+                           th:classappend="${file.getType()? 'fa-folder-o': 'fa-file-'+file.getFileType()+'o'}"
+                        ></i>
 						<a 
-							th:if="${file.getType()}"
 							th:text="${file.getName()}" 
-							th:href="@{'/getDirList' + ${file.getAbsPath()}}"
-						>
-						</a>
-						<a 
-							th:unless="${file.getType()}"
-							th:text="${file.getName()}" 
-							th:href="@{'/getFileContents' + ${file.getAbsPath()}}"
-						>
-						</a>
+							th:href="@{${file.getType()? '/getDirList': '/getFileContents'} + ${file.getAbsPath()}}"
+						></a>
 					</div>
-					<div class="col-span-2 grid grid-cols-3">
+					<div class="col-span-3 grid grid-cols-3">
 						<div class="col-span-2 p-2 text-center">
 							<span th:text="${file.getLastModified()}"></span>
 						</div>

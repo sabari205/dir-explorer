@@ -3,12 +3,13 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" th:href="@{/styles/fileviewer.css}">
 	<script src="https://cdn.tailwindcss.com"></script>
 	<style type="text/tailwindcss">
 		@layer base {
 			a {
-			    @apply mt-2 underline text-blue-600 font-serif text-base;
+			    @apply underline text-blue-600 font-serif text-base;
 			}
 			a:hover {
 			    @apply text-blue-800;
@@ -37,6 +38,12 @@
 			ul {
 				@apply mt-2 list-disc font-serif text-base;
 			}
+			li ul {
+				@apply mt-0 list-disc font-serif text-base;
+			}
+            li ol {
+				@apply mt-0 list-decimal font-serif text-base;
+            }
             p code, pre {
                 @apply mt-2 rounded p-2;
             }
@@ -54,7 +61,21 @@
 	<title>Directory explorer</title>
 </head>
 <body>
-	<h1>Explorer</h1>
+    <header>
+        <div class="flex justify-start">
+            <div class="mt-2">
+                <a href="/">
+                    <span class="fa-stack text-black">
+                        <i class="fa fa-file-o fa-stack-2x"></i>
+                        <i class="fa fa-arrows fa-stack-1x"></i>
+                    </span>
+                </a>
+            </div>
+            <div>
+                <h1>ServerNav</h1>
+            </div>
+        </div>
+    </header>
 	<div class="flex justify-center w-full py-2">
 		<div class="flex flex-col px-2 w-10/12">
 			<!-- <div> -->
