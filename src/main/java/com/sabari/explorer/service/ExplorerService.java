@@ -111,7 +111,11 @@ public class ExplorerService {
 
 		fileContent.setFileName(file.getName());
 		fileContent.setContent(contents.toString());
-		fileContent.setContentHTML(getHTMLContent(contents.toString()));
+
+        // Generate HTML contents only for markdown and Readme files
+        if (file.getName().toLowerCase().endsWith("md") || file.getName().toLowerCase().startsWith("readme"))
+            fileContent.setContentHTML(getHTMLContent(contents.toString()));
+
 		fileContent.setIsAsciiFile(true);
 
 		return fileContent;

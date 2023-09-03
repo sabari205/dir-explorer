@@ -9,3 +9,7 @@ pre {
 p code {
     background-color: #f1f1f1;
 }
+
+#text-editor {
+    white-space:pre-wrap;
+}

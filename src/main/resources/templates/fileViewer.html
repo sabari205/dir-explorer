@@ -84,11 +84,22 @@
 			<!-- <div class="grow-0 p-2 border-black rounded border"> -->
 			<!-- 	Tree view of directories -->
 			<!-- </div> -->
-			<div class="grow border-black rounded border ml-0.5">
-				<div class="p-2 border-black border-b">
-                    <p class="mt-0" th:text="${prevDir} + '/' + ${fileContents.getFileName()}"></p>
+			<div class="grow border-black rounded border ml-0.5 text-sm font-mono">
+				<div class="p-2 border-black border-b flex justify-between w-full font-serif">
+                    <div class="flex">
+                        <div>
+                            <i class="fa fa-folder-open-o fa-lg"></i>
+                        </div>
+                        <div>
+                            <span th:text="${prevDir} + '/' + ${fileContents.getFileName()}"></span>
+                        </div>
+                    </div>
+                    <div>
+                        <i class="fa fa-pencil fa-lg"></i>
+                    </div>
 				</div>
-				<div class="p-2" th:utext="${fileContents.getContentHTML}"></div>
+                <div th:if="${fileContents.getContentHTML() == null}" class="p-2" id="text-editor" th:text="${fileContents.getContent()}"></div>
+                <div th:if="${fileContents.getContentHTML() != null}" class="p-2" th:utext="${fileContents.getContentHTML()}"></div>
 			</div>
 		</div>
 	</div>
